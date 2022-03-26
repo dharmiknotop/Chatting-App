@@ -1,0 +1,22 @@
+.Navbar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background);
+  color: var(--textColor);
+  transition: 0.5s all ease-in-out;
+  font-weight: 500;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  z-index: 99999;
+}
+.chatSection {
+  margin-left: 30vw;
+}
+.Navbar > div > div {
+  margin: 1rem;
+}
+.Navbar > div > div > a:hover {
+  color: cyan;
+}

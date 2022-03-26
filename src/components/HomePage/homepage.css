@@ -1,0 +1,19 @@
+.userSection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30vw;
+  height: 100vh;
+  border-right: 2px solid var(--background);
+  z-index: 5;
+}
+.User:hover {
+  cursor: pointer;
+}
+.User {
+  border: 2px solid var(--background);
+  padding: 1rem;
+}
+.User > div > div {
+  padding-left: 1rem;
+}
