@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRealtimeUsers } from '../../redux/actions/userAction'
-import './homepage.css'
+import {
+  getRealtimeConversations,
+  getRealtimeUsers,
+  updateMessage,
+} from '../../redux/actions/userAction'
+
 import { BsCircleFill } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
-
+import { BiSend } from 'react-icons/bi'
+import './homepage.css'
 const Homepage = () => {
   const dispatch = useDispatch()
   const auth = useSelector((state) => state.auth)
@@ -21,7 +26,7 @@ const Homepage = () => {
 
     console.log(user)
 
-    // dispatch(getRealtimeConversations({ uid_1: auth.uid, uid_2: user.uid }))
+    dispatch(getRealtimeConversations({ uid_1: auth.uid, uid_2: user.uid }))
   }
 
   useEffect(() => {
@@ -39,32 +44,72 @@ const Homepage = () => {
       unsubscribe.then((f) => f()).catch((error) => console.log(error))
     }
   }, [])
+  const submitMessage = (e) => {
+    const msgObj = {
+      user_uid_1: auth.uid,
+      user_uid_2: userUid,
+      message,
+    }
 
+    if (message !== '') {
+      dispatch(updateMessage(msgObj)).then(() => {
+        setMessage('')
+      })
+    }
+
+    // console.log(msgObj)
+  }
   return (
     <div>
       <div className="row">
-        <div className=" userSection">
+        <div className=" userSection col-lg-3">
           {user.users.length > 0
             ? user.users.map((user) => {
                 return <Users onClick={initChat} key={user.uid} user={user} />
               })
             : null}
         </div>
-        <div className="chatSection ">
+        <div className="ChatSection col-lg-9 ">
           {chatStarted ? chatUser : ' '}
-          sd
+          {chatStarted
+            ? user.conversations.map((con) => (
+                <div
+                  style={{
+                    textAlign: con.user_uid_1 == auth.uid ? 'right' : 'left',
+                  }}
+                >
+                  <p className="messageStyle">{con.message}</p>
+                </div>
+              ))
+            : null}
+          <div className="InputText d-flex justify-content-center align-items-center">
+            <input
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value)
+              }}
+              placeholder="Enter the Message"
+              type="text"
+            />
+            <div
+              className="Send d-flex justify-content-center align-items-center"
+              onClick={submitMessage}
+            >
+              <BiSend />
+            </div>{' '}
+          </div>
         </div>
       </div>
     </div>
   )
 }
 const Users = ({ user, onClick }) => {
-  // const { , onClick } = props
-
   return (
     <div
       className="d-flex justify-content-between User"
-      onClick={onClick(user)}
+      onClick={() => {
+        onClick(user)
+      }}
     >
       <div className="d-flex flex-row">
         <FaUserCircle size={40} />

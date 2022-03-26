@@ -1,5 +1,4 @@
 .Navbar {
-  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -11,9 +10,7 @@
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   z-index: 99999;
 }
-.chatSection {
-  margin-left: 30vw;
-}
+
 .Navbar > div > div {
   margin: 1rem;
 }
