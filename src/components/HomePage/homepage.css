@@ -12,8 +12,13 @@
   position: relative;
   padding: 0;
 }
-.ShowUsers > .user {
+.ShowUsers > div > .User {
   color: white;
+}
+.cross {
+  position: absolute;
+  top: 10px;
+  right: 20px;
 }
 .User {
   border-top: 2px solid var(--background);
@@ -46,11 +51,17 @@
   background-color: var(--background);
 }
 .messageStyle {
-  padding-right: 1.5rem;
+  padding: 0 1.5rem;
   position: relative;
 }
 .active {
   background-color: var(--background);
+  padding: 0.3rem 0.8rem;
+  color: white;
+  border-radius: 10px;
+}
+.inactive {
+  background-color: gray;
   padding: 0.3rem 0.8rem;
   color: white;
   border-radius: 10px;

@@ -89,11 +89,11 @@ const Homepage = () => {
     console.log(msgObj)
   }
   return (
-    <div>
+    <div className="position-relative">
       {showUser ? (
         <>
           <div className="ShowUsersDiv ">
-            <ImCross onClick={stopUser} />
+            <ImCross onClick={stopUser} className="cross" color="white" />
             <div className="ShowUsers container">
               {user.users && user.users.length > 0
                 ? user.users.map((user) => {
@@ -136,14 +136,15 @@ const Homepage = () => {
         </div>
         <div className="ChatSection col-lg-9 col-md-9 col-sm-9 ">
           <p className="UserName"> {chatStarted ? chatUser : ' '}</p>
-          {auth.users.length === 0 ? (
-            <>sdf</>
-          ) : (
-            <div className="center" style={{ textAlign: 'center' }}>
-              You have currently no user Add them through bottom left button To
-              Add New User
-            </div>
-          )}
+          {auth.users.length === 1 ? (
+            <>
+              {' '}
+              <div className="center" style={{ textAlign: 'center' }}>
+                You have currently no user Add them through bottom left button
+                To Add New User
+              </div>
+            </>
+          ) : null}
           {chatStarted
             ? user.conversations.map((con) => (
                 <div
