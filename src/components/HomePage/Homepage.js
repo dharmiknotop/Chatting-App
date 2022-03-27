@@ -130,6 +130,14 @@ const Homepage = () => {
         </div>
         <div className="ChatSection col-lg-9 ">
           <p className="UserName"> {chatStarted ? chatUser : ' '}</p>
+          {auth.users.length === 0 ? (
+            <>sdf</>
+          ) : (
+            <div className="center" style={{ textAlign: 'center' }}>
+              You have currently no user Add them through bottom left button To
+              Add New User
+            </div>
+          )}
           {chatStarted
             ? user.conversations.map((con) => (
                 <div
@@ -202,9 +210,10 @@ const Users = ({ user, onClick, auth }) => {
   )
 }
 const Auth = ({ user, onClick, auth }) => {
+  console.log(user.users.length)
   return (
     <div className="">
-      {auth.uid !== user.users.uid ? (
+      {user.users.length === undefined && auth.uid !== user.users.uid ? (
         <>
           <div
             className="d-flex justify-content-between User"

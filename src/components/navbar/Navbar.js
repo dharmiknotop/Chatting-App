@@ -25,7 +25,7 @@ const Navbar = () => {
       </div>{' '}
       {authenticated && authenticated ? (
         <>
-          <div className="log-out" onClick={logouts}>
+          <div className="log-out pointer" onClick={logouts}>
             Log out
           </div>
         </>
