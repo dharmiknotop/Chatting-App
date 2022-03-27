@@ -1,7 +1,7 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
-import { authConstanst } from '../constants/constants'
+import { authConstanst, UserConstanst } from '../constants/constants'
 export const signup = (user) => {
   return async (dispatch) => {
     const db = firebase.firestore()
@@ -31,6 +31,7 @@ export const signup = (user) => {
                 uid: data.user.uid,
                 createdAt: new Date(),
                 isOnline: true,
+                users: [],
               })
               .then(() => {
                 //succeful
@@ -40,6 +41,7 @@ export const signup = (user) => {
                   lastName: user.lname,
                   uid: data.user.uid,
                   email: user.email,
+                  users: [],
                 }
                 console.log('this in then 1')
 
@@ -162,5 +164,69 @@ export const logout = (uid) => {
       .catch((error) => {
         console.log(error)
       })
+  }
+}
+export const NewUser = (user, auth) => {
+  return async (dispatch) => {
+    const db = firebase.firestore()
+
+    dispatch({ type: `${UserConstanst.GET_DATA_USERS}_REQUEST` })
+
+    // firebase
+    //   .auth()
+    //   .createUserWithEmailAndPassword(user.email, user.password)
+    //   .then((data) => {
+    //     console.log(data)
+    //     const currentUser = firebase.auth().currentUser
+    //     const name = `${user.fname} ${user.lname}`
+    //     console.log('0')
+    //     currentUser
+    //       .updateProfile({
+    //         displayName: name,
+    //       })
+    //       .then(() => {
+    //         //if you are here means it is updated successfully
+    //         console.log('this in then 0')
+    console.log(user)
+    db.collection('users')
+      .doc(user.uid)
+      .update({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        uid: user.uid,
+        createdAt: new Date(),
+        isOnline: true,
+      })
+      .then(() => {
+        //succeful
+        const loggedInUser = {
+          firstName: auth.firstName,
+          lastName: auth.lastName,
+          uid: auth.uid,
+          email: auth.email,
+          users: user,
+        }
+        console.log('this in then 1')
+        console.log(loggedInUser)
+
+        // localStorage.setItem('user', JSON.stringify(loggedInUser))
+        console.log('User logged in successfully...!')
+        dispatch({
+          type: `${UserConstanst.GET_DATA_USERS}_SUCCESS`,
+          payload: { user: loggedInUser },
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        dispatch({
+          type: `${UserConstanst.GET_DATA_USERSb}_FAILURE`,
+          payload: { error },
+        })
+      })
+    //     })
+    // })
+    // .catch((error) => {
+    //   console.log(error)
+    // })
   }
 }

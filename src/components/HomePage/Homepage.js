@@ -8,8 +8,10 @@ import {
 
 import { BsCircleFill } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
+import { ImCross } from 'react-icons/im'
 import { BiSend } from 'react-icons/bi'
 import './homepage.css'
+import { NewUser } from '../../redux/actions/Authentication'
 const Homepage = () => {
   const dispatch = useDispatch()
   const auth = useSelector((state) => state.auth)
@@ -18,17 +20,38 @@ const Homepage = () => {
   const [chatUser, setChatUser] = useState('')
   const [message, setMessage] = useState('')
   const [userUid, setUserUid] = useState(null)
+  const [showUser, setshowUser] = useState(false)
+
   let unsubscribe
+  const showUsers = () => {
+    setshowUser(true)
+  }
   const initChat = (user) => {
     setChatStarted(true)
     setChatUser(`${user.firstName} ${user.lastName}`)
     setUserUid(user.uid)
+    dispatch(NewUser(user, auth))
 
     console.log(user)
 
     dispatch(getRealtimeConversations({ uid_1: auth.uid, uid_2: user.uid }))
+    setshowUser(false)
   }
+  const authChat = (user) => {
+    setChatStarted(true)
+    setChatUser(`${user.users.firstName} ${user.users.lastName}`)
+    setUserUid(user.uid)
 
+    console.log(user)
+
+    dispatch(
+      getRealtimeConversations({ uid_1: auth.uid, uid_2: user.users.uid }),
+    )
+    setshowUser(false)
+  }
+  const stopUser = () => {
+    setshowUser(false)
+  }
   useEffect(() => {
     unsubscribe = dispatch(getRealtimeUsers(auth.uid))
       .then((unsubscribe) => {
@@ -61,13 +84,49 @@ const Homepage = () => {
   }
   return (
     <div>
+      {showUser ? (
+        <>
+          <div className="ShowUsersDiv ">
+            <ImCross onClick={stopUser} />
+            <div className="ShowUsers container">
+              {user.users.length > 0
+                ? user.users.map((user) => {
+                    return (
+                      <Users
+                        onClick={initChat}
+                        key={user.uid}
+                        user={user}
+                        auth={auth}
+                      />
+                    )
+                  })
+                : null}
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       <div className="row">
         <div className=" userSection col-lg-3">
-          {user.users.length > 0
-            ? user.users.map((user) => {
-                return <Users onClick={initChat} key={user.uid} user={user} />
+          {auth.users.length > 0
+            ? auth.users.map((user) => {
+                return (
+                  <Auth
+                    onClick={authChat}
+                    key={user.uid}
+                    user={user.user}
+                    auth={auth}
+                  />
+                )
               })
             : null}
+          <button
+            className="Add-user btn btn-outline-primary"
+            onClick={showUsers}
+          >
+            +
+          </button>
         </div>
         <div className="ChatSection col-lg-9 ">
           <p className="UserName"> {chatStarted ? chatUser : ' '}</p>
@@ -111,26 +170,65 @@ const Homepage = () => {
     </div>
   )
 }
-const Users = ({ user, onClick }) => {
+const Users = ({ user, onClick, auth }) => {
   return (
-    <div
-      className="d-flex justify-content-between User"
-      onClick={() => {
-        onClick(user)
-      }}
-    >
-      <div className="d-flex flex-row">
-        <FaUserCircle size={40} />
-        <div className="d-flex justify-content-center align-items-center">
-          {user.firstName}
-        </div>
-      </div>
-      <div className="d-flex justify-content-center align-items-center">
-        <BsCircleFill
-          size={10}
-          className={user.isOnline === true ? 'text-success' : 'text-secondary'}
-        />
-      </div>
+    <div className="">
+      {auth.uid !== user.uid ? (
+        <>
+          <div
+            className="d-flex justify-content-between User"
+            onClick={() => {
+              onClick(user)
+            }}
+          >
+            <div className="d-flex flex-row">
+              <FaUserCircle size={40} />
+              <div className="d-flex justify-content-center align-items-center">
+                {user.users && user.firstName}
+              </div>
+            </div>
+            <div className="d-flex justify-content-center align-items-center">
+              <BsCircleFill
+                size={10}
+                className={
+                  user.isOnline === true ? 'text-success' : 'text-secondary'
+                }
+              />
+            </div>
+          </div>
+        </>
+      ) : null}
+    </div>
+  )
+}
+const Auth = ({ user, onClick, auth }) => {
+  return (
+    <div className="">
+      {auth.uid !== user.users.uid ? (
+        <>
+          <div
+            className="d-flex justify-content-between User"
+            onClick={() => {
+              onClick(user)
+            }}
+          >
+            <div className="d-flex flex-row">
+              <FaUserCircle size={40} />
+              <div className="d-flex justify-content-center align-items-center">
+                {user.users && user.users.firstName}
+              </div>
+            </div>
+            <div className="d-flex justify-content-center align-items-center">
+              <BsCircleFill
+                size={10}
+                className={
+                  user.isOnline === true ? 'text-success' : 'text-secondary'
+                }
+              />
+            </div>
+          </div>
+        </>
+      ) : null}
     </div>
   )
 }

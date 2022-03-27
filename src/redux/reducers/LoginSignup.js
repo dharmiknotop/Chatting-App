@@ -1,4 +1,4 @@
-import { authConstanst } from '../constants/constants'
+import { authConstanst, UserConstanst } from '../constants/constants'
 
 const initState = {
   firstName: '',
@@ -7,6 +7,7 @@ const initState = {
   authenticating: false,
   authenticated: false,
   error: null,
+  users: [],
 }
 
 export default (state = initState, action) => {
@@ -14,20 +15,25 @@ export default (state = initState, action) => {
 
   switch (action.type) {
     case `${authConstanst.USER_LOGIN}_REQUEST`:
+    case `${UserConstanst.GET_DATA_USERS}_REQUEST`:
       state = {
         ...state,
         authenticating: true,
       }
       break
     case `${authConstanst.USER_LOGIN}_SUCCESS`:
+    case `${UserConstanst.GET_DATA_USERS}_SUCCESS`:
+      console.log(action.payload.user)
       state = {
         ...state,
         ...action.payload.user,
         authenticated: true,
         authenticating: false,
+        users: [...state.users, action.payload],
       }
       break
     case `${authConstanst.USER_LOGIN}_FAILURE`:
+    case `${UserConstanst.GET_DATA_USERS}_FAILURE`:
       state = {
         ...state,
         authenticated: false,

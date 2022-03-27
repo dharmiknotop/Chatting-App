@@ -9,7 +9,7 @@
   transition: 0.5s all ease-in-out;
   font-weight: 500;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  z-index: 99999;
+  z-index: 99;
 }
 
 .Navbar > div > div {

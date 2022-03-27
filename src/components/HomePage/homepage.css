@@ -3,6 +3,7 @@
   border-right: 2px solid var(--background);
   z-index: 5;
   padding: 0;
+  position: relative;
 }
 .User:hover {
   cursor: pointer;
@@ -11,8 +12,12 @@
   position: relative;
   padding: 0;
 }
+.ShowUsers > .user {
+  color: white;
+}
 .User {
-  border: 2px solid var(--background);
+  border-top: 2px solid var(--background);
+  border-bottom: 2px solid var(--background);
   padding: 1rem;
 }
 .User > div > div {
@@ -23,7 +28,7 @@
   bottom: 0;
   left: 0;
   width: 99%;
-  height: 5vh;
+  height: 5.6vh;
 }
 .InputText > input {
   width: 100%;
@@ -61,4 +66,27 @@
   padding: 1rem;
   text-align: center;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.Add-user {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.ShowUsersDiv {
+  position: absolute;
+
+  width: 100vw;
+  height: 100vh;
+  background-color: #9e9e9e63;
+  z-index: 11111;
+}
+.ShowUsers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #03a9f463;
+  width: 100%;
+  padding: 0;
 }
