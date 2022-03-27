@@ -33,10 +33,11 @@ const Login = () => {
 
   return (
     <h1>
-      log in
       <div className="LoginSignUpContainer">
         <div className="LoginSignUpBox">
           <form className="loginForm" onSubmit={userLogin}>
+            <div className="d-flex justify-content-center">Log in</div>
+
             <div className="Email">
               <MdEmail />
               <input

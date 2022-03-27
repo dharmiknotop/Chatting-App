@@ -37,12 +37,13 @@ const SignUp = () => {
   return (
     <div className="LoginSignUpContainer">
       <div className="LoginSignUpBox">
-        <div className="d-flex justify-content-center">Sign Up</div>
         <form
           className="loginForm"
           encType="multipart/form-data"
           onSubmit={registerUser}
         >
+          <div className="d-flex justify-content-center">Sign Up</div>
+
           <div className="signUpName">
             <AiOutlineUser />
             <input

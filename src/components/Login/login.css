@@ -45,7 +45,10 @@
   border: none;
   transition: all 0.5s;
 }
-
+.loginForm > .d-flex,
+.signUpForm > .d-flex {
+  font-size: 1.5rem;
+}
 .loginForm,
 .signUpForm {
   display: flex;
@@ -54,7 +57,7 @@
   margin: auto;
   padding: 2vmax;
   justify-content: space-evenly;
-  height: 70%;
+  height: 100%;
   transition: all 0.5s;
 }
 

@@ -12,8 +12,10 @@ import { ImCross } from 'react-icons/im'
 import { BiSend } from 'react-icons/bi'
 import './homepage.css'
 import { NewUser } from '../../redux/actions/Authentication'
+import { useNavigate } from 'react-router-dom'
 const Homepage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const auth = useSelector((state) => state.auth)
   const user = useSelector((state) => state.user)
   const [chatStarted, setChatStarted] = useState(false)
@@ -62,6 +64,10 @@ const Homepage = () => {
       })
   }, [])
   useEffect(() => {
+    auth.authenticated ? navigate('/') : navigate('/login')
+  }, [auth.authenticated])
+
+  useEffect(() => {
     return () => {
       //cleanup
       unsubscribe.then((f) => f()).catch((error) => console.log(error))
@@ -89,7 +95,7 @@ const Homepage = () => {
           <div className="ShowUsersDiv ">
             <ImCross onClick={stopUser} />
             <div className="ShowUsers container">
-              {user.users.length > 0
+              {user.users && user.users.length > 0
                 ? user.users.map((user) => {
                     return (
                       <Users
@@ -108,8 +114,8 @@ const Homepage = () => {
         <></>
       )}
       <div className="row">
-        <div className=" userSection col-lg-3">
-          {auth.users.length > 0
+        <div className=" userSection col-lg-3 col-md-3 col-sm-3 col-xl-3">
+          {auth.users && auth.users.length > 0
             ? auth.users.map((user) => {
                 return (
                   <Auth
@@ -128,7 +134,7 @@ const Homepage = () => {
             +
           </button>
         </div>
-        <div className="ChatSection col-lg-9 ">
+        <div className="ChatSection col-lg-9 col-md-9 col-sm-9 ">
           <p className="UserName"> {chatStarted ? chatUser : ' '}</p>
           {auth.users.length === 0 ? (
             <>sdf</>
@@ -210,10 +216,11 @@ const Users = ({ user, onClick, auth }) => {
   )
 }
 const Auth = ({ user, onClick, auth }) => {
-  console.log(user.users.length)
   return (
     <div className="">
-      {user.users.length === undefined && auth.uid !== user.users.uid ? (
+      {user.users &&
+      user.users.length === undefined &&
+      auth.uid !== user.users.uid ? (
         <>
           <div
             className="d-flex justify-content-between User"

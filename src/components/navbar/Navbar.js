@@ -21,7 +21,11 @@ const Navbar = () => {
     <div className="Navbar">
       <div className="p-3">
         {' '}
-        {firstName && firstName} {lastName && lastName}
+        {authenticated && authenticated ? (
+          ` ${firstName && firstName} ${lastName && lastName}`
+        ) : (
+          <>Anonymous </>
+        )}
       </div>{' '}
       {authenticated && authenticated ? (
         <>
