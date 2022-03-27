@@ -15,7 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const userLogin = (e) => {
     e.preventDefault()
-
+    console.log('nub hai tu')
     if (email == '') {
       alert('Email is required')
       return
@@ -32,33 +32,36 @@ const Login = () => {
   }, [authenticated])
 
   return (
-    <div className="LoginSignUpContainer">
-      <div className="LoginSignUpBox">
-        <form className="loginForm" onSubmit={userLogin}>
-          <div className="Email">
-            <MdEmail />
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="Password">
-            <RiLockPasswordLine />
-            <input
-              type="password"
-              placeholder="Password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <input type="submit" value="Login" className="loginBtn" />
-        </form>
+    <h1>
+      log in
+      <div className="LoginSignUpContainer">
+        <div className="LoginSignUpBox">
+          <form className="loginForm" onSubmit={userLogin}>
+            <div className="Email">
+              <MdEmail />
+              <input
+                type="email"
+                placeholder="Email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="Password">
+              <RiLockPasswordLine />
+              <input
+                type="password"
+                placeholder="Password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <input type="submit" value="Login" className="loginBtn" />
+          </form>
+        </div>
       </div>
-    </div>
+    </h1>
   )
 }
 

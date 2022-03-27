@@ -1,4 +1,5 @@
 .Navbar {
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -16,4 +17,7 @@
 }
 .Navbar > div > div > a:hover {
   color: cyan;
+}
+.log-out {
+  margin-right: 1.5rem;
 }

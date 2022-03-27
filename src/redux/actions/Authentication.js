@@ -66,6 +66,7 @@ export const signup = (user) => {
 }
 export const signin = (user) => {
   return async (dispatch) => {
+    console.log('hi')
     dispatch({ type: `${authConstanst.USER_LOGIN}_REQUEST` })
     firebase
       .auth()

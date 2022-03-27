@@ -41,4 +41,24 @@
   background-color: var(--background);
 }
 .messageStyle {
+  padding-right: 1.5rem;
+  position: relative;
+}
+.active {
+  background-color: var(--background);
+  padding: 0.3rem 0.8rem;
+  color: white;
+  border-radius: 10px;
+}
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.UserName {
+  background-color: #03a9f42e;
+  padding: 1rem;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

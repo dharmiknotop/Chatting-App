@@ -57,7 +57,7 @@ const Homepage = () => {
       })
     }
 
-    // console.log(msgObj)
+    console.log(msgObj)
   }
   return (
     <div>
@@ -70,15 +70,23 @@ const Homepage = () => {
             : null}
         </div>
         <div className="ChatSection col-lg-9 ">
-          {chatStarted ? chatUser : ' '}
+          <p className="UserName"> {chatStarted ? chatUser : ' '}</p>
           {chatStarted
             ? user.conversations.map((con) => (
                 <div
                   style={{
-                    textAlign: con.user_uid_1 == auth.uid ? 'right' : 'left',
+                    textAlign: con.user_uid_1 == auth.uid ? 'right ' : 'left ',
                   }}
                 >
-                  <p className="messageStyle">{con.message}</p>
+                  <p className="messageStyle">
+                    <span
+                      className={` ${
+                        con.user_uid_1 == auth.uid ? 'active' : 'inactive'
+                      }`}
+                    >
+                      {con.message}
+                    </span>
+                  </p>
                 </div>
               ))
             : null}
