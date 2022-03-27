@@ -153,6 +153,17 @@ const Homepage = () => {
                   }}
                 >
                   <p className="messageStyle">
+                    <div className="ChatUserName">
+                      {con.user_uid_1 !== auth.uid
+                        ? chatStarted
+                          ? chatUser
+                          : ''
+                        : ''}
+                    </div>
+                    <div className="OurUserName">
+                      {con.user_uid_1 === auth.uid ? auth.firstName : <></>}
+                    </div>
+
                     <span
                       className={` ${
                         con.user_uid_1 == auth.uid ? 'active' : 'inactive'

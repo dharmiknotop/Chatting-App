@@ -51,20 +51,40 @@
   background-color: var(--background);
 }
 .messageStyle {
-  padding: 0 1.5rem;
+  padding: 1.5rem 1.5rem;
   position: relative;
+  margin: 0;
 }
 .active {
+  position: relative;
   background-color: var(--background);
   padding: 0.3rem 0.8rem;
   color: white;
   border-radius: 10px;
 }
 .inactive {
-  background-color: gray;
+  position: relative;
+
+  background-color: #80808091;
   padding: 0.3rem 0.8rem;
   color: white;
   border-radius: 10px;
+}
+.ChatUserName {
+  padding: 0 1.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.8rem;
+  color: #80808091;
+}
+.OurUserName {
+  padding: 0 1.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.8rem;
+  color: var(--background);
 }
 .center {
   position: absolute;

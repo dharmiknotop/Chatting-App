@@ -4,7 +4,7 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { useEffect, useState } from 'react'
 import './signUp.css'
 import { signup } from '../../redux/actions/Authentication'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -13,13 +13,15 @@ const SignUp = () => {
   const [password, setPassword] = useState('')
   const [fname, setFname] = useState('')
   const [lname, setLname] = useState('')
+  const { authenticated } = useSelector((state) => state.auth)
+
   const user = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user'))
     : null
   // const [lname, Lname] = useState('')
   useEffect(() => {
-    // user ? navigate('/') : console.log('erro')
-  }, [])
+    authenticated ? navigate('/') : console.log('erro')
+  }, [authenticated])
 
   const registerUser = (e) => {
     e.preventDefault()
@@ -61,7 +63,7 @@ const SignUp = () => {
             <AiOutlineUser />
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Surname"
               required
               name="name"
               value={lname}
