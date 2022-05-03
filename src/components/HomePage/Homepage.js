@@ -5,7 +5,8 @@ import {
   getRealtimeUsers,
   updateMessage,
 } from '../../redux/actions/userAction'
-
+import UserChatNavbar from './userChatNavbar'
+import { getUsers } from '../../redux/actions/getuser'
 import { BsCircleFill } from 'react-icons/bs'
 import { FaUserCircle } from 'react-icons/fa'
 import { ImCross } from 'react-icons/im'
@@ -18,6 +19,7 @@ const Homepage = () => {
   const navigate = useNavigate()
   const auth = useSelector((state) => state.auth)
   const user = useSelector((state) => state.user)
+  const trying = useSelector((state) => state.trying)
   const [chatStarted, setChatStarted] = useState(false)
   const [chatUser, setChatUser] = useState('')
   const [message, setMessage] = useState('')
@@ -34,21 +36,17 @@ const Homepage = () => {
     setUserUid(user.uid)
     dispatch(NewUser(user, auth))
 
-    console.log(user)
-
     dispatch(getRealtimeConversations({ uid_1: auth.uid, uid_2: user.uid }))
     setshowUser(false)
   }
-  const authChat = (user) => {
+  const authChat = (user, trying) => {
+    console.log(user)
+    console.log(user.uid)
     setChatStarted(true)
-    setChatUser(`${user.users.firstName} ${user.users.lastName}`)
+    setChatUser(`${user.firstName} ${user.lastName}`)
     setUserUid(user.uid)
 
-    console.log(user)
-
-    dispatch(
-      getRealtimeConversations({ uid_1: auth.uid, uid_2: user.users.uid }),
-    )
+    dispatch(getRealtimeConversations({ uid_1: auth.uid, uid_2: user.uid }))
     setshowUser(false)
   }
   const stopUser = () => {
@@ -63,6 +61,9 @@ const Homepage = () => {
         console.log(error)
       })
   }, [])
+  useEffect(() => {
+    dispatch(getUsers(auth.uid))
+  }, [dispatch])
   useEffect(() => {
     auth.authenticated ? navigate('/') : navigate('/login')
   }, [auth.authenticated])
@@ -88,57 +89,60 @@ const Homepage = () => {
 
     console.log(msgObj)
   }
+  // console.log(trying)
+
   return (
     <div className="position-relative">
       {showUser ? (
         <>
           <div className="ShowUsersDiv ">
-            <ImCross onClick={stopUser} className="cross" color="white" />
             <div className="ShowUsers container">
-              {user.users && user.users.length > 0
-                ? user.users.map((user) => {
-                    return (
-                      <Users
-                        onClick={initChat}
-                        key={user.uid}
-                        user={user}
-                        auth={auth}
-                      />
-                    )
-                  })
-                : null}
+              <div className="showUsersContainer">
+                <div className="showUserNavbar">
+                  Add the user You Want to Chat with
+                  <ImCross onClick={stopUser} className="cross" color="black" />
+                </div>
+                {user.users && user.users.length > 0
+                  ? user.users.map((user) => {
+                      return (
+                        <AllUsers
+                          onClick={initChat}
+                          key={user.uid}
+                          user={user}
+                          auth={auth}
+                        />
+                      )
+                    })
+                  : null}
+              </div>
             </div>
           </div>
         </>
       ) : (
         <></>
       )}
-      <div className="row">
-        <div className=" userSection col-lg-3 col-md-3 col-sm-3 col-xl-3">
-          {auth.users && auth.users.length > 0
-            ? auth.users.map((user) => {
-                return (
-                  <Auth
-                    onClick={authChat}
-                    key={user.uid}
-                    user={user.user}
-                    auth={auth}
-                  />
-                )
-              })
-            : null}
-          <button
-            className="Add-user btn btn-outline-primary"
-            onClick={showUsers}
-          >
-            +
-          </button>
+      <div className="mainContainer">
+        <div className=" userSection ">
+          <UserChatNavbar showUsers={showUsers} />
+
+          {trying.users &&
+            trying.users.map((user) => {
+              return (
+                <ChattingUser
+                  onClick={authChat}
+                  key={auth.uid}
+                  user={user}
+                  auth={auth}
+                  trying={trying}
+                />
+              )
+            })}
         </div>
-        <div className="ChatSection col-lg-9 col-md-9 col-sm-9 ">
+        <div className="ChatSection  ">
+          <div className="bgOverlay"></div>
           <p className="UserName"> {chatStarted ? chatUser : ' '}</p>
-          {auth.users.length === 1 ? (
+          {auth.users.length === 0 ? (
             <>
-              {' '}
               <div className="center" style={{ textAlign: 'center' }}>
                 You have currently no user Add them through bottom left button
                 To Add New User
@@ -181,28 +185,28 @@ const Homepage = () => {
               onChange={(e) => {
                 setMessage(e.target.value)
               }}
-              placeholder="Enter the Message"
+              placeholder="Type a Message"
               type="text"
             />
             <div
               className="Send d-flex justify-content-center align-items-center"
               onClick={submitMessage}
             >
-              <BiSend />
-            </div>{' '}
+              <BiSend color="gray" />
+            </div>
           </div>
         </div>
       </div>
     </div>
   )
 }
-const Users = ({ user, onClick, auth }) => {
+const AllUsers = ({ user, onClick, auth }) => {
   return (
     <div className="">
       {auth.uid !== user.uid ? (
         <>
           <div
-            className="d-flex justify-content-between User"
+            className="d-flex justify-content-between User addUser"
             onClick={() => {
               onClick(user)
             }}
@@ -227,36 +231,38 @@ const Users = ({ user, onClick, auth }) => {
     </div>
   )
 }
-const Auth = ({ user, onClick, auth }) => {
+const ChattingUser = ({ user, onClick, auth, trying }) => {
   return (
     <div className="">
-      {user.users &&
-      user.users.length === undefined &&
-      auth.uid !== user.users.uid ? (
-        <>
-          <div
-            className="d-flex justify-content-between User"
-            onClick={() => {
-              onClick(user)
-            }}
-          >
-            <div className="d-flex flex-row">
-              <FaUserCircle size={40} />
-              <div className="d-flex justify-content-center align-items-center">
-                {user.users && user.users.firstName}
+      {/* {user && auth.uid !== user.users.uid ? ( */}
+      <>
+        <div
+          className=" User"
+          onClick={() => {
+            onClick(user)
+          }}
+        >
+          <div className={'chatGrid'}>
+            <div className=" userImgSection ">
+              <FaUserCircle className="userImg" />
+            </div>
+            <div className=" userNameSection d-flex align-items-center justify-content-between">
+              <div className="">{user && user.firstName}</div>
+              <div className="d-flex justify-content-center align-items-center onlineIcon">
+                <BsCircleFill
+                  size={10}
+                  className={
+                    user.isOnline === true ? 'text-success' : 'text-secondary'
+                  }
+                />
               </div>
             </div>
-            <div className="d-flex justify-content-center align-items-center">
-              <BsCircleFill
-                size={10}
-                className={
-                  user.isOnline === true ? 'text-success' : 'text-secondary'
-                }
-              />
-            </div>
           </div>
-        </>
-      ) : null}
+        </div>
+      </>
+      {/* ) : ( */}
+      {/* <h1>{user.users && user.users.firstName} </h1> */}
+      {/* )} */}
     </div>
   )
 }

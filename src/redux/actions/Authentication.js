@@ -12,7 +12,6 @@ export const signup = (user) => {
       .auth()
       .createUserWithEmailAndPassword(user.email, user.password)
       .then((data) => {
-        console.log(data)
         const currentUser = firebase.auth().currentUser
         const name = `${user.fname} ${user.lname}`
         console.log('0')
@@ -169,48 +168,30 @@ export const logout = (uid) => {
 export const NewUser = (user, auth) => {
   return async (dispatch) => {
     const db = firebase.firestore()
-
+    console.log(auth)
     dispatch({ type: `${UserConstanst.GET_DATA_USERS}_REQUEST` })
-
-    // firebase
-    //   .auth()
-    //   .createUserWithEmailAndPassword(user.email, user.password)
-    //   .then((data) => {
-    //     console.log(data)
-    //     const currentUser = firebase.auth().currentUser
-    //     const name = `${user.fname} ${user.lname}`
-    //     console.log('0')
-    //     currentUser
-    //       .updateProfile({
-    //         displayName: name,
-    //       })
-    //       .then(() => {
-    //         //if you are here means it is updated successfully
-    //         console.log('this in then 0')
-    console.log(user)
+    // adding username and id in the users array in the  current user.
     db.collection('users')
-      .doc(user.uid)
+      .doc(auth.uid)
       .update({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        uid: user.uid,
-        createdAt: new Date(),
-        isOnline: true,
+        users: firebase.firestore.FieldValue.arrayUnion({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          uid: user.uid,
+        }),
       })
       .then(() => {
-        //succeful
+        //  
         const loggedInUser = {
           firstName: auth.firstName,
           lastName: auth.lastName,
           uid: auth.uid,
-          email: auth.email,
+          createdAt: new Date(),
+          isOnline: true,
           users: user,
         }
-        console.log('this in then 1')
-        console.log(loggedInUser)
+        console.log('success')
 
-        // localStorage.setItem('user', JSON.stringify(loggedInUser))
-        console.log('User logged in successfully...!')
         dispatch({
           type: `${UserConstanst.GET_DATA_USERS}_SUCCESS`,
           payload: { user: loggedInUser },
@@ -218,10 +199,10 @@ export const NewUser = (user, auth) => {
       })
       .catch((error) => {
         console.log(error)
-        dispatch({
-          type: `${UserConstanst.GET_DATA_USERSb}_FAILURE`,
-          payload: { error },
-        })
+        // dispatch({
+        //   type: `${UserConstanst.GET_DATA_USERS}_FAILURE`,
+        //   payload: { error },
+        // })
       })
     //     })
     // })

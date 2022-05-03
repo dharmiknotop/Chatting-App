@@ -15,7 +15,6 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const userLogin = (e) => {
     e.preventDefault()
-    console.log('nub hai tu')
     if (email == '') {
       alert('Email is required')
       return

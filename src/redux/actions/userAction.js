@@ -20,7 +20,7 @@ export const getRealtimeUsers = (uid) => {
             users.push(doc.data())
           }
         })
-        //console.log(users);
+        console.log(users)
 
         dispatch({
           type: `${userConstants.GET_REALTIME_USERS}_SUCCESS`,
@@ -87,8 +87,6 @@ export const getRealtimeConversations = (user) => {
           type: userConstants.GET_REALTIME_MESSAGES,
           payload: { conversations },
         })
-
-        console.log(conversations)
       })
   }
 }

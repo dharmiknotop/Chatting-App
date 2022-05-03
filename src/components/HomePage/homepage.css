@@ -1,54 +1,138 @@
 .userSection {
-  height: 91.5vh;
-  border-right: 2px solid var(--background);
+  height: 100vh;
+  border-right: 1px solid gray;
   z-index: 5;
   padding: 0;
   position: relative;
 }
-.User:hover {
-  cursor: pointer;
+.mainContainer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
 }
+
 .ChatSection {
   position: relative;
   padding: 0;
 }
+.bgOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://cdna.artstation.com/p/assets/images/images/011/168/054/large/joel-morales-escobar-trama-j02.jpg?1528192578');
+  background-size: cover;
+  z-index: -1;
+  opacity: 0.5;
+}
+.chatNavbar {
+  height: 60px;
+  background: #f0f2f5;
+}
+.chatNavbar span {
+  padding-left: 1rem;
+}
+.chatNavbar span:last-child {
+  padding-left: 3rem;
+  padding-right: 0.1rem;
+}
 .ShowUsers > div > .User {
   color: white;
 }
+.chatGrid {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr;
+  height: 70px;
+  align-items: center;
+}
 .cross {
   position: absolute;
-  top: 10px;
-  right: 20px;
+  top: 50%;
+  right: 15px;
+  transform: translate(0, -50%);
 }
-.User {
-  border-top: 2px solid var(--background);
-  border-bottom: 2px solid var(--background);
-  padding: 1rem;
+.addUser {
+  padding: 0.5rem 1rem;
+}
+.User:hover {
+  cursor: pointer;
+  background-color: #e0e0e0b5;
+  transition: 0.2s all ease-in-out;
+}
+.userNameSection {
+  border-bottom: 1px solid #e9edef;
+  height: 100%;
 }
 .User > div > div {
   padding-left: 1rem;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 0.81rem;
+}
+.showUserNavbar {
+  background: #e0e0e0b5;
+  padding: 1rem;
+  font-weight: 700;
+  position: relative;
+  margin-bottom: 0.2rem;
+}
+.showUsersContainer {
+  background-color: white;
+  width: 50vw;
+  height: 75vh;
+  border-radius: 8px;
+}
+.ShowUsersDiv {
+  position: absolute;
+
+  width: 100vw;
+  height: 100vh;
+  background-color: #9e9e9e63;
+  z-index: 111;
+}
+.ShowUsers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #03a9f463;
+  width: 50%;
+  padding: 0;
+}
+.userImg {
+  width: 100%;
+  height: 50px;
+}
+.chatActive {
+  background-color: #f0f2f5;
 }
 .InputText {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 99%;
-  height: 5.6vh;
+  width: 100%;
+  height: 60px;
+  background-color: #f0f2f5;
 }
 .InputText > input {
   width: 100%;
-  height: 100%;
+  height: 40px;
   outline: none;
 }
 .InputText > .Send > svg {
   color: white;
 }
+.InputText > input {
+  border: none;
+  border-radius: 8px;
+  margin: 0 1rem;
+  padding-left: 1rem;
+}
 .InputText > .Send {
-  height: 100%;
-  padding: 0 1rem;
+  height: 40px;
+  padding-right: 1rem;
   cursor: pointer;
+  color: gray;
   /* width: 100%; */
-  background-color: var(--background);
 }
 .messageStyle {
   padding: 1.5rem 1.5rem;
@@ -65,7 +149,7 @@
 .inactive {
   position: relative;
 
-  background-color: #80808091;
+  background-color: #e271e3;
   padding: 0.3rem 0.8rem;
   color: white;
   border-radius: 10px;
@@ -76,7 +160,7 @@
   top: 0;
   left: 0;
   font-size: 0.8rem;
-  color: #80808091;
+  color: #e271e3;
 }
 .OurUserName {
   padding: 0 1.5rem;
@@ -93,37 +177,71 @@
   transform: translate(-50%, -50%);
 }
 .UserName {
-  background-color: #03a9f42e;
+  background-color: #f0f2f5;
+  height: 60px;
   padding: 1rem;
   text-align: center;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .Add-user {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  bottom: 3%;
+  left: 2%;
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  z-index: 999;
+  transition: 0.5s all ease-in-out;
 }
-.ShowUsersDiv {
-  position: absolute;
 
-  width: 100vw;
-  height: 100vh;
-  background-color: #9e9e9e63;
-  z-index: 11111;
+.Add-user:hover {
+  background: var(--background);
+  color: white;
+  cursor: pointer;
 }
-.ShowUsers {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #03a9f463;
-  width: 100%;
-  padding: 0;
+.onlineIcon {
+  margin-right: 1rem;
 }
+
 @media only screen and (max-width: 400px) {
   .userSection,
   .ChatSection {
     height: 80vh;
   }
+}
+.dropdownSpan {
+  position: relative;
+  cursor: pointer;
+}
+.dropdown {
+  position: absolute;
+  top: 0%;
+  left: 0;
+  list-style: none;
+  padding: 0;
+  opacity: 0;
+  transition: 0.3s all ease-in-out;
+  width: 120px;
+  text-align: center;
+  z-index: -1;
+  border-radius: 8px;
+  box-shadow: 0 0 10px gray;
+  overflow: hidden;
+}
+.dropdown li {
+  background-color: white;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid gray;
+}
+.dropdown li:last-child {
+  border: none;
+}
+.dropdown li:hover {
+  background-color: #f0f2f5;
+  font-weight: 700;
+}
+.dropdownActive {
+  opacity: 1;
+  top: 170%;
+  z-index: 999;
 }

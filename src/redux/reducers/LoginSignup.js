@@ -22,8 +22,17 @@ export default (state = initState, action) => {
       }
       break
     case `${authConstanst.USER_LOGIN}_SUCCESS`:
+      console.log(action.payload)
+      state = {
+        ...state,
+        ...action.payload.user,
+        authenticated: true,
+        authenticating: false,
+        users: [...state.users, action.payload],
+      }
+      break
     case `${UserConstanst.GET_DATA_USERS}_SUCCESS`:
-      console.log(action.payload.user)
+      console.log(action.payload)
       state = {
         ...state,
         ...action.payload.user,
