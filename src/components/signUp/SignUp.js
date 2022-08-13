@@ -6,6 +6,7 @@ import './signUp.css'
 import { signup } from '../../redux/actions/Authentication'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Navbar from '../navbar/Navbar'
 const SignUp = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -38,6 +39,8 @@ const SignUp = () => {
 
   return (
     <div className="LoginSignUpContainer">
+      <Navbar />
+
       <div className="LoginSignUpBox">
         <form
           className="loginForm"

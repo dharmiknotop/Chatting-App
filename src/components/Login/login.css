@@ -14,7 +14,6 @@
 .LoginSignUpBox {
   background-color: white;
   width: 25vw;
-  height: 70vh;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -38,13 +37,6 @@
   color: #1a6499;
 }
 
-.LoginSignUpBox > div > button {
-  background-color: #288ed6;
-  height: 3px;
-  width: 50%;
-  border: none;
-  transition: all 0.5s;
-}
 .loginForm > .d-flex,
 .signUpForm > .d-flex {
   font-size: 1.5rem;
@@ -81,6 +73,7 @@
   border-radius: 4px;
   font: 300 0.9vmax cursive;
   outline: none;
+  margin: 10px 0 20px;
 }
 
 .loginForm > div > svg,
@@ -214,4 +207,18 @@
     font: 300 1.9vmax 'Roboto';
     padding: 1.8vmax;
   }
+}
+.DefaultLoginBtn {
+  width: 100%;
+  border: 1px solid #288ed6;
+  background: white;
+  color: #288ed6;
+  font: 300 0.9vmax 'Roboto';
+  padding: 0.8vmax;
+  margin: 2vmax 0;
+  cursor: pointer;
+  transition: all 0.5s;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
 }
